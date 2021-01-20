@@ -3,7 +3,8 @@ import gensim
 import pickle
 import logging
 import warnings
-import multiprocessing as mp
+import winsound
+import numpy as np
 logging.basicConfig(filename='lda_model.log', format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 def bigrams(words, bi_min=15, tri_min=10):
@@ -34,17 +35,20 @@ def get_corpus(dir, load_bigrams=False):
 
 if __name__ == '__main__':
     train_corpus, train_id2word, bigram_train = get_corpus("CleanedText_Costum", load_bigrams=True)
-    topics = 7
+    topics = 12
     with warnings.catch_warnings():
         warnings.simplefilter('ignore')
         lda_train = gensim.models.ldamulticore.LdaMulticore(
             corpus=train_corpus,
-            num_topics=7,
+            num_topics=topics,
             id2word=train_id2word,
             chunksize=100,
-            workers=mp.cpu_count() - 4,
+            workers=8,
             passes=50,
             eval_every=1,
+            alpha=np.asarray([0.15 for _ in range(topics)]),
+            eta='auto',
             per_word_topics=True)
-        lda_train.save(f'saved_lda/lda_train_{topics}-topics.model')
+        lda_train.save(f'saved_lda/lda_train_loew_alpha_auto_eta_{topics}-topics.model')
+        winsound.PlaySound('c:/windows/media/tada.wav', winsound.SND_FILENAME)
         print("Done Training lda")
