@@ -5,6 +5,7 @@ import logging
 import warnings
 import winsound
 import numpy as np
+from sklearn.feature_extraction.text import CountVectorizer
 logging.basicConfig(filename='lda_model.log', format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 def bigrams(words, bi_min=15, tri_min=10):
@@ -35,20 +36,26 @@ def get_corpus(dir, load_bigrams=False):
 
 if __name__ == '__main__':
     train_corpus, train_id2word, bigram_train = get_corpus("CleanedText_Costum", load_bigrams=True)
-    topics = 12
-    with warnings.catch_warnings():
-        warnings.simplefilter('ignore')
-        lda_train = gensim.models.ldamulticore.LdaMulticore(
-            corpus=train_corpus,
-            num_topics=topics,
-            id2word=train_id2word,
-            chunksize=100,
-            workers=8,
-            passes=50,
-            eval_every=1,
-            alpha=np.asarray([0.15 for _ in range(topics)]),
-            eta='auto',
-            per_word_topics=True)
-        lda_train.save(f'saved_lda/lda_train_loew_alpha_auto_eta_{topics}-topics.model')
-        winsound.PlaySound('c:/windows/media/tada.wav', winsound.SND_FILENAME)
-        print("Done Training lda")
+    print('Corpus and dict loaded')
+    topics = 31
+    alpha = 0.8
+    # with warnings.catch_warnings():
+    #     warnings.simplefilter('ignore')
+    #     lda_train = gensim.models.ldamulticore.LdaMulticore(
+    #         corpus=train_corpus,
+    #         num_topics=topics,
+    #         id2word=train_id2word,
+    #         chunksize=100,
+    #         workers=8,
+    #         passes=50,
+    #         eval_every=1,
+    #         eta='auto',
+    #         alpha=np.asarray([alpha for _ in range(topics)]),
+    #         per_word_topics=True)
+    #     lda_train.save(f'saved_lda/lda_train_alpha_{alpha}_auto_eta_{topics}-topics.model')
+    #     winsound.PlaySound('c:/windows/media/tada.wav', winsound.SND_FILENAME)
+    # print("Done Training lda")
+    lda_train = gensim.models.hdpmodel.HdpModel(train_corpus, train_id2word, alpha=1)
+    lda_train.save(f'hdpsave/first.model')
+    winsound.PlaySound('c:/windows/media/tada.wav', winsound.SND_FILENAME)
+    print("Done Training hdp")

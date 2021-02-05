@@ -6,6 +6,19 @@ from gensim.parsing.preprocessing import preprocess_string, strip_tags, strip_pu
 
 nlp = spacy.load("en_core_web_sm")
 
+COSTUM_WORDS = ['page', 'interpretation', 'question', 'session', 'honours', 'honour', 'redacted', 'redact', 'kwon', 'molto',
+                'registrar', 'liu', 'parker', 'mumba', 'mccloskey', 'karibi', 'piletta', 'zanin', 'hunt', 'delvoie', 'defence',
+                'korner', 'stewart', 'robinson', 'karnavas', 'kay', 'chamber', 'edgerton', 'riad', 'rule', 'bis', 'jones',
+                'hvo', 'smith', 'strugar', 'guy', 'vasiljevic', 'scott', 'kehoe', 'whyte', 'clark', 'jorda', 'kilometre',
+                'ryneveld', 'williams', 'harmon', 'vance', 'owen', 'butler', 'vance', 'emmerson', 'moore', 'antonetti',
+                'hall', 'brown', 'article', 'statute', 'rodrigues', 'agius', 'constitution', 'orie', 'lattanzi', 'protocol',
+                'tribunal', 'law', 'exhibit', 'witness', 'protocol', 'agreement', 'rules', 'private', 'morrissey', 'status'
+                'potocari', 'ackerman', 'picard', 'moskowitz', 'icty', 'penal', 'amendment', 'groome', 'evidence', 'bos',
+                'court', 'crisis', 'staff', 'main', 'nice', 'assembly', 'blank', 'whereupon', 'nicholls', 'interior', 'harhoff',
+                'tieger', 'appeals', 'recess', 'sutherland', 'thayer', 'saxon', 'niemann', 'prosecutor', 'interpreter',
+                'weiner', 'metre', 'hayman', 'marcus', 'marcussen', 'wubben', 'main', 'board', 'koumjian', 'hoepfel',
+                'bench', 'bbc', 'shall']
+
 
 def filter_page_nums_and_redacted():
     for root, dirs, files in os.walk("ICTYTextFiles", topdown=False):
@@ -43,7 +56,7 @@ def clean(file):
 
 def clean_word(word):
     word = word.lower()
-    if word in ['page', 'interpretation', 'question', 'session', 'honours', 'honour', 'redacted', 'redact']: return ''
+    if word in COSTUM_WORDS: return ''
     elif word == 'serbs' : return 'serb'
     elif word == 'serbian' : return 'serb'
     elif word == 'muslims' : return 'muslim'
@@ -74,5 +87,5 @@ def costum_clean(file):
 if __name__ == '__main__':
     # utils.run_parrlell_on_dir("FilteredReadableText", lemmatize)
     # utils.run_parrlell_on_dir("WordsLemantize", clean)
-    # utils.run_parrlell_on_dir("CleanedText_nopron", costum_clean)
+    utils.run_parrlell_on_dir("CleanedText_nopron", costum_clean)
     print("Done")

@@ -65,7 +65,7 @@ def ent_anaylysis():
             counters[label] += counter_dict[label]
 
     for label in counters.keys():
-        with open(f'named2/most_common_{label}.csv', 'w') as f:
+        with open(f'named_no_pron/most_common_{label}.csv', 'w') as f:
             for word, count in counters[label].most_common(200):
                 f.write(f'{word}, {count}\n')
 
@@ -96,5 +96,5 @@ def print_sizes():
 if __name__ == '__main__':
     print_all_words()
     count_words()
-    # print_sizes()
-    # ent_anaylysis()
+    print_sizes()
+    ent_anaylysis()
