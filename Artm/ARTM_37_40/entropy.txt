@@ -1,0 +1,2 @@
+Entropy sum is :12.150593757629395
+Entropy average is :0.32839441299438477
