@@ -283,13 +283,13 @@ def main(args):
     # sleep(1)
     # print("DONE")
 
-    make_corpus(args.corpus[0])
+    make_corpus(args.corpus)
     os.mkdir('Results')
     os.mkdir('Results/LDA_topics')
 
     print("Starting first method")
     print("Training LDA...", end='')
-    lda, model_name, id2word = run_lda(args.corpus[0], args.num_topics, args.alpha)
+    lda, model_name, id2word = run_lda(args.corpus, args.num_topics, args.alpha)
     print("DONE")
 
     print("Clustering LDA results...", end='')
