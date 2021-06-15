@@ -81,17 +81,19 @@ def get_theta(model, corpus):
 
 if __name__ == '__main__':
     root = "LDA"
-    cluster_quantile = 0.85
+    cluster_quantile = 0.7
     train_corpus, train_id2word, bigram_train = get_corpus("CleanedText_Costum", load_bigrams=True, load_dict=True)
     corpus = pd.read_json("corpus.json")
     train_corpus = [train_id2word.doc2bow(text) for text in corpus['words']]
-    for filename in os.listdir(root):
+    # for filename in os.listdir(root):
+    for filename in ['lda_36_topics_0.8 _alpha']:
         print(filename)
         model_folder = f'{root}/{filename}'
         model = gensim.models.ldamulticore.LdaMulticore.load(f'{model_folder}/model')
         num_of_topics = model.num_topics
-        theta = get_theta(model, train_corpus)
-        theta.to_csv(f"{model_folder}/theta.csv")
+        # theta = get_theta(model, train_corpus)
+        # theta.to_csv(f"{model_folder}/theta.csv")
+        theta = pd.read_csv(f"{model_folder}/theta.csv", index_col=0)
         for topic_id in range(num_of_topics):
             topic_folder = f'{model_folder}/topic_{topic_id}'
             cl = cluster(theta, topic_id, cluster_quantile)
