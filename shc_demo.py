@@ -88,12 +88,11 @@ def run_lda(corpus_dir, num_topics, alpha):
     os.mkdir(model_folder)
     with warnings.catch_warnings():
         warnings.simplefilter('ignore')
-        lda_train = gensim.models.ldamulticore.LdaMulticore(
+        lda_train = gensim.models.ldamodel.LdaModel(
             corpus=train_corpus,
             num_topics=num_topics,
             id2word=train_id2word,
             chunksize=100,
-            workers=8,
             passes=50,
             eval_every=1,
             minimum_probability=0.0,
